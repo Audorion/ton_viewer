@@ -140,6 +140,8 @@ async def main():
     while True:
         for address in WALLET_ADDRESSES:
             latest_tx_ids[address] = await check_for_new_transactions(address, latest_tx_ids[address])
+            await asyncio.sleep(10)  # Задержка 10 секунд между запросами к разным кошелькам
+
         await asyncio.sleep(60)
 
 
