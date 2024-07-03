@@ -27,6 +27,7 @@ WALLET_ADDRESSES = [
 ]
  
 
+PROFILE_URL = 'https://tonviewer.com/address/{}'
 
 
 TRANSACTION_URL = 'https://tonviewer.com/transaction/{}'
