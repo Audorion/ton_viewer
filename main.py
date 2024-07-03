@@ -25,7 +25,7 @@ WALLET_ADDRESSES = [
     'UQB41nn_ibgHaEQs9HyJG-eBMqy1aIgU9yOPZlTPNYZFFs3s',
     'UQAUmsxRyJNstMPhe0Ku16VlqiOrpB8F9iB28yBKsMCJ8XsW'
 ]
- ]
+ 
 
 
 
