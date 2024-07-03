@@ -25,10 +25,8 @@ WALLET_ADDRESSES = [
     'UQB41nn_ibgHaEQs9HyJG-eBMqy1aIgU9yOPZlTPNYZFFs3s',
     'UQAUmsxRyJNstMPhe0Ku16VlqiOrpB8F9iB28yBKsMCJ8XsW'
 ]
- 
 
 PROFILE_URL = 'https://tonviewer.com/address/{}'
-
 
 TRANSACTION_URL = 'https://tonviewer.com/transaction/{}'
 
@@ -36,15 +34,15 @@ TRANSACTION_URL = 'https://tonviewer.com/transaction/{}'
 API_URL = 'https://toncenter.com/api/v2/getTransactions?address={}'
 # Путь к звуковому файлу
 SOUND_FILE = 'sound.mp3'
-
-# Инициализация Pygame
- 
-# Телеграм токен и chat ID
 TELEGRAM_TOKEN = '6672587911:AAEZlgUxvMSSR9_z8MdV5LnvP_mFI4Yarak'
 CHAT_ID = '401919854'
 CHAT_IDS_FILE = 'chat_ids.json'
+# Инициализация Pygame
 
-# Инициализация Telegram бота
+
+# Инициализация Pygame
+pygame.mixer.init()
+
 bot = Bot(token=TELEGRAM_TOKEN)
 
 
@@ -88,10 +86,7 @@ def extract_transaction_info(tx):
     value = int(tx.get('in_msg', {}).get('value', '0'))
     in_msg = tx.get('in_msg', {})
     out_msgs = tx.get('out_msgs', [])
-    print(out_msgs)
-    print(in_msg)
 
-    # Пример извлечения данных из транзакции
     bought = in_msg.get('message')
     token_name = in_msg.get('token_name', 'Unknown Token')
     timestamp = tx.get('utime', 0)
@@ -126,13 +121,15 @@ async def check_for_new_transactions(wallet_address, latest_tx_id=None):
         if latest_tx_id and tx['transaction_id'] == latest_tx_id:
             break
         transaction_info = extract_transaction_info(tx)
-        if transaction_info['value'] > 0:  # Простая проверка на входящую транзакцию с ненулевой суммой
-            transaction_link = TRANSACTION_URL.format(transaction_info['body_hash'])
+        if transaction_info['value'] > 0:
+            profile_link = PROFILE_URL.format(wallet_address)
             message = (f"New transaction detected for {wallet_address}:\n"
                        f"{transaction_info['transaction_date']} - Bought {transaction_info['token_name']} for {transaction_info['value']} "
                        f"and received {transaction_info['received_token_name']} worth {transaction_info['received']}\n"
-                       f"View transaction: {transaction_link}")
- 
+                       f"View profile: {profile_link}")
+            print(message)
+            pygame.mixer.music.load(SOUND_FILE)
+            pygame.mixer.music.play()
             for chat_id in chat_ids:
                 await bot.send_message(chat_id=chat_id, text=message)
 
@@ -141,29 +138,20 @@ async def check_for_new_transactions(wallet_address, latest_tx_id=None):
     return latest_tx_id
 
 
-async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    status_message = "Currently tracking transactions for the following wallets:\n"
-    for address in WALLET_ADDRESSES:
-        profile_link = PROFILE_URL.format(address)
-        status_message += f"{address}: {profile_link}\n"
-    await update.message.reply_text(status_message)
-
 async def main():
     latest_tx_ids = {address: None for address in WALLET_ADDRESSES}
     while True:
         for address in WALLET_ADDRESSES:
             latest_tx_ids[address] = await check_for_new_transactions(address, latest_tx_ids[address])
-        await asyncio.sleep(60)  # Проверка каждые 60 секунд
+        await asyncio.sleep(60)
+
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
     start_handler = CommandHandler('start', start)
-    status_handler = CommandHandler('status', status)
     application.add_handler(start_handler)
-    application.add_handler(status_handler)
 
     application.run_polling()
 
-    # Запуск основного цикла
     asyncio.run(main())
