@@ -140,6 +140,13 @@ async def check_for_new_transactions(wallet_address, latest_tx_id=None):
     return latest_tx_id
 
 
+async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    status_message = "Currently tracking transactions for the following wallets:\n"
+    for address in WALLET_ADDRESSES:
+        profile_link = PROFILE_URL.format(address)
+        status_message += f"{address}: {profile_link}\n"
+    await update.message.reply_text(status_message)
+
 async def main():
     latest_tx_ids = {address: None for address in WALLET_ADDRESSES}
     while True:
@@ -147,12 +154,13 @@ async def main():
             latest_tx_ids[address] = await check_for_new_transactions(address, latest_tx_ids[address])
         await asyncio.sleep(60)  # Проверка каждые 60 секунд
 
-
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
     start_handler = CommandHandler('start', start)
+    status_handler = CommandHandler('status', status)
     application.add_handler(start_handler)
+    application.add_handler(status_handler)
 
     application.run_polling()
 
