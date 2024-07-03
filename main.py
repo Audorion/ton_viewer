@@ -19,7 +19,12 @@ WALLET_ADDRESSES = [
     'UQAq_6PiODLG2qBpN8i40gEnL6bhbsnNjnlUF_l-9MHlk4SL',
     'UQC25qtyEmq4aZXFHOYubWFDxr_LYEtuzIBvjhjlXJxVBmqQ',
     'UQBDSmN9gHAysazND_b6s21hWtO7LwcpbvOWygL7rJ-8CQiA',
-    'UQB41nn_ibgHaEQs9HyJG-eBMqy1aIgU9yOPZlTPNYZFFs3s'
+    'UQB41nn_ibgHaEQs9HyJG-eBMqy1aIgU9yOPZlTPNYZFFs3s',
+    'UQBDSmN9gHAysazND_b6s21hWtO7LwcpbvOWygL7rJ-8CQiA',
+    'UQA6QVH0s4zpyswZ__yj-xKJaDzMo6r4kvu_EiRcTgT_teX4',
+    'UQB41nn_ibgHaEQs9HyJG-eBMqy1aIgU9yOPZlTPNYZFFs3s',
+    'UQAUmsxRyJNstMPhe0Ku16VlqiOrpB8F9iB28yBKsMCJ8XsW'
+]
  ]
 
 
