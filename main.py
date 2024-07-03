@@ -37,8 +37,7 @@ API_URL = 'https://toncenter.com/api/v2/getTransactions?address={}'
 SOUND_FILE = 'sound.mp3'
 
 # Инициализация Pygame
-pygame.mixer.init()
-
+ 
 # Телеграм токен и chat ID
 TELEGRAM_TOKEN = '6672587911:AAEZlgUxvMSSR9_z8MdV5LnvP_mFI4Yarak'
 CHAT_ID = '401919854'
@@ -132,8 +131,7 @@ async def check_for_new_transactions(wallet_address, latest_tx_id=None):
                        f"{transaction_info['transaction_date']} - Bought {transaction_info['token_name']} for {transaction_info['value']} "
                        f"and received {transaction_info['received_token_name']} worth {transaction_info['received']}\n"
                        f"View transaction: {transaction_link}")
-            pygame.mixer.music.load(SOUND_FILE)
-            pygame.mixer.music.play()
+ 
             for chat_id in chat_ids:
                 await bot.send_message(chat_id=chat_id, text=message)
 
