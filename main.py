@@ -41,8 +41,7 @@ CHAT_IDS_FILE = 'chat_ids.json'
 
 
 # Инициализация Pygame
-pygame.mixer.init()
-
+ 
 bot = Bot(token=TELEGRAM_TOKEN)
 
 
@@ -128,8 +127,6 @@ async def check_for_new_transactions(wallet_address, latest_tx_id=None):
                        f"and received {transaction_info['received_token_name']} worth {transaction_info['received']}\n"
                        f"View profile: {profile_link}")
             print(message)
-            pygame.mixer.music.load(SOUND_FILE)
-            pygame.mixer.music.play()
             for chat_id in chat_ids:
                 await bot.send_message(chat_id=chat_id, text=message)
 
